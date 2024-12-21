@@ -42,7 +42,9 @@ export class TodoController {
     @UploadedFile() file: Express.Multer.File,
     @UserEmail() userEmail: string,
   ) {
-    const imageUrl = file ? `/uploads/${file.filename}` : null; // Handle image upload
+    const imageUrl = file
+      ? `https://file-uploder-project.onrender.com/uploads/${file.filename}`
+      : null; // Handle image upload
     return await this.todoService.create(createTodoDto, userEmail, imageUrl);
   }
 
