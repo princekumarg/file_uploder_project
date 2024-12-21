@@ -13,30 +13,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Todo {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  task        String
+  description String?
+  image       String?
+  status      TodoStatus
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userEmail   String?
+  user        User?      @relation(fields: [userEmail], references: [email])
+
+  @@index([userEmail])
+}
+
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  email    String    @unique
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
   password String
   name     String
-  posts    Post[]
-  comments Comment[]
+  todos    Todo[]
 }
 
-model Post {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  content  String
-  imageUrl String?
-  authorId String    @db.ObjectId
-  author   User      @relation(fields: [authorId], references: [id])
-  comments Comment[]
-}
-
-model Comment {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  content  String
-  postId   String @db.ObjectId
-  post     Post   @relation(fields: [postId], references: [id])
-  authorId String @db.ObjectId
-  author   User   @relation(fields: [authorId], references: [id])
+enum TodoStatus {
+  DONE
+  ACTIVE
 }
