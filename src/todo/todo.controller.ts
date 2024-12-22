@@ -36,7 +36,7 @@ export class TodoController {
   })
   @ApiConsumes('multipart/form-data')
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('image', { dest: './uploads' }))
   async create(
     @Body() createTodoDto: CreateTodoDto,
     @UploadedFile() file: Express.Multer.File,
