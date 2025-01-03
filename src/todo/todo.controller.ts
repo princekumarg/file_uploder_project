@@ -43,7 +43,7 @@ export class TodoController {
     @UserEmail() userEmail: string,
   ) {
     const imageUrl = file
-      ? `https://file-uploder-project.onrender.com/uploads/${file.filename}`
+      ? `https://file-uploder-project.onrender.com/${file.filename}`
       : null; // Handle image upload
     return await this.todoService.create(createTodoDto, userEmail, imageUrl);
   }
